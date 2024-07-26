@@ -20,7 +20,7 @@ const Home = () => {
 
   return (
     <div>
-      <h1>Lista de Canciones</h1>
+      <h1>Home</h1>
       <ul>
         {songs.map(song => (
           <li key={song.id}>
@@ -33,3 +33,4 @@ const Home = () => {
 };
 
 export default Home;
+

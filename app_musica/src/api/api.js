@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://api.tu-dominio.com',
+  baseURL: 'https://sandbox.academiadevelopers.com/harmonyhub',
 });
 
 api.interceptors.request.use(config => {
@@ -13,4 +13,3 @@ api.interceptors.request.use(config => {
 });
 
 export default api;
-

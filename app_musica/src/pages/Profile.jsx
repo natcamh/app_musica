@@ -1,23 +1,22 @@
-import React, { useContext } from 'react';
-import { AuthContext } from '../context/AuthContext';
+import React from 'react';
+import { useAuth } from '../context/AuthContext';
 
 const Profile = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logout } = useAuth();
+
+  if (!user) {
+    return <p>No estás autenticado</p>;
+  }
 
   return (
     <div>
-      <h1>Perfil de Usuario</h1>
-      {user ? (
-        <div>
-          <p><strong>Nombre:</strong> {user.name}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-          {/* Otros datos del usuario */}
-        </div>
-      ) : (
-        <p>No estás autenticado.</p>
-      )}
+      <h1>Perfil de usuario</h1>
+      <p>Nombre de usuario: {user.username}</p>
+      <button onClick={logout}>Cerrar sesión</button>
     </div>
   );
 };
 
 export default Profile;
+
+

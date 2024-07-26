@@ -1,51 +1,36 @@
-import React, { createContext, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import api from '../api/api';
+import React, { createContext, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+// Crear el contexto de autenticación
 const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
+// Proveedor del contexto de autenticación
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const history = useHistory();
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      api.get('/auth/me')
-        .then(response => {
-          setUser(response.data);
-        })
-        .catch(() => {
-          localStorage.removeItem('token');
-        });
-    }
-    setLoading(false);
-  }, []);
-
-  const login = async (credentials) => {
-    try {
-      const response = await api.post('/auth/login', credentials);
-      setUser(response.data.user);
-      localStorage.setItem('token', response.data.token);
-      history.push('/');
-    } catch (error) {
-      console.error('Login failed:', error);
-    }
+  const login = (username, password) => {
+    // Simular autenticación
+    setUser({ username });
+    navigate('/profile');
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('token');
-    history.push('/login');
+    navigate('/login');
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export { AuthContext, AuthProvider };
+// Hook personalizado para usar el contexto de autenticación
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
+
+
 
